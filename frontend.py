@@ -12,13 +12,13 @@ menu = st.sidebar.radio("Navigation", ["Home", "About", "Contact"])
 carousel_html = '''
 <div class="slideshow-container">
   <div class="mySlides fade">
-    <img src="https://source.unsplash.com/800x400/?nature" style="width:100%">
+    <img src="in1.jpeg" style="width:100%">
   </div>
   <div class="mySlides fade">
-    <img src="https://source.unsplash.com/800x400/?city" style="width:100%">
+    <img src="in2.jpeg" style="width:100%">
   </div>
   <div class="mySlides fade">
-    <img src="https://source.unsplash.com/800x400/?technology" style="width:100%">
+    <img src="in3.jpeg" style="width:100%">
   </div>
 </div>
 <script>
