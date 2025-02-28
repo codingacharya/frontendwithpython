@@ -1,5 +1,5 @@
 import streamlit as st
-import time
+import os
 
 # Page configuration
 st.set_page_config(page_title='My Streamlit Website', layout='wide')
@@ -8,35 +8,24 @@ st.set_page_config(page_title='My Streamlit Website', layout='wide')
 st.sidebar.title("Menu")
 menu = st.sidebar.radio("Navigation", ["Home", "About", "Contact"])
 
-# Carousel (Image Slideshow using HTML & JS)
-carousel_html = '''
-<div class="slideshow-container">
-  <div class="mySlides fade">
-    <img src="in1.jpeg" style="width:100%">
-  </div>
-  <div class="mySlides fade">
-    <img src="in2.jpeg" style="width:100%">
-  </div>
-  <div class="mySlides fade">
-    <img src="in3.jpeg" style="width:100%">
-  </div>
-</div>
-<script>
-let slideIndex = 0;
-showSlides();
-function showSlides() {
-  let slides = document.getElementsByClassName("mySlides");
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1;}
-  slides[slideIndex-1].style.display = "block";
-  setTimeout(showSlides, 3000);
-}
-</script>
-'''
-st.components.v1.html(carousel_html, height=450)
+# Carousel using Streamlit
+image_folder = "images"  # Change this to your local image folder path
+image_files = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if img.endswith(("png", "jpg", "jpeg"))]
+
+# Display images as a slideshow
+if image_files:
+    img_index = st.session_state.get("img_index", 0)
+    st.image(image_files[img_index], use_column_width=True)
+
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("Previous"):
+            st.session_state.img_index = (img_index - 1) % len(image_files)
+    with col2:
+        if st.button("Next"):
+            st.session_state.img_index = (img_index + 1) % len(image_files)
+else:
+    st.warning("No images found in the 'images' folder!")
 
 # Main Content
 if menu == "Home":
@@ -56,4 +45,4 @@ footer = """
     </style>
     <div class="footer">© 2025 My Streamlit Website. All Rights Reserved.</div>
     """
-st.components.v1.html(footer)
+st.markdown(footer, unsafe_allow_html=True)
